@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Anker GlassGo · Power Every Pair | AI 原生产品定义实验</title>
-<meta name="description" content="Anker GlassGo —— AI 眼镜的跨品牌补能系统。一次 AI 原生产品定义实验的可视化提案。">
+<meta name="description" content="Anker GlassGo —— AI 眼镜的跨品牌补能系统。一次六阶段 × 七角色 AI 原生产品定义实验的可视化提案。">
 <style>
 :root{
   --blue:#00A7E1; --blue-light:#6EE7FF; --blue-deep:#0077B6;
@@ -218,7 +218,7 @@ footer .src{margin-top:8px;font-size:11.5px;color:rgba(234,247,255,.35)}
   <div class="container">
     <a class="logo" href="#top"><span class="dot"></span>Anker <b>GlassGo</b></a>
     <div class="links">
-      <a href="#market">市场</a><a href="#gap">断裂带</a><a href="#product">产品</a><a href="#flow">工作流</a><a href="#redteam">红队</a><a href="#model">测算</a><a href="#roadmap">路线图</a>
+      <a href="#pitch">演讲</a><a href="#market">市场</a><a href="#gap">断裂带</a><a href="#product">产品</a><a href="#flow">工作流</a><a href="#redteam">红队</a><a href="#model">测算</a><a href="#roadmap">路线图</a><a href="#evidence">证据</a><a href="#code">代码</a>
     </div>
   </div>
 </nav>
@@ -234,6 +234,8 @@ footer .src{margin-top:8px;font-size:11.5px;color:rgba(234,247,255,.35)}
     <div class="cta">
       <a class="btn primary" href="#product">查看产品系统 →</a>
       <a class="btn ghost" href="#flow">AI 原生工作流</a>
+      <a class="btn ghost" href="Anker_GlassGo_产品提案_提交版.pdf" download>📄 PDF</a>
+      <a class="btn ghost" href="Anker_GlassGo_答辩PPT.pptx" download>📊 PPT</a>
     </div>
     <div class="hero-stats">
       <div class="hstat reveal"><div class="num"><span class="count" data-to="870">0</span><small> 万台</small></div><div class="lbl">2025 全球 AI 眼镜出货（Omdia）</div></div>
@@ -243,6 +245,23 @@ footer .src{margin-top:8px;font-size:11.5px;color:rgba(234,247,255,.35)}
     </div>
   </div>
 </header>
+
+<section id="pitch" style="background:#fff">
+  <div class="container">
+    <span class="eyebrow reveal">Elevator Pitch</span>
+    <h2 class="reveal">30 秒讲清楚 <span class="hl">GlassGo</span></h2>
+    <div class="card reveal d1" style="margin-top:28px">
+      <p><strong>Anker GlassGo 是 AI 眼镜品类的"中立能源基建"。</strong></p>
+      <p style="margin-top:12px">2025 年全球 AI 眼镜出货约 870 万台，但主机厂各自封闭补能方案。用户真正的痛点不是续航不够，而是<strong>充电时必须摘下眼镜</strong>——拍摄中断、会议断线、视线模糊。安克用三件套切入这个断裂带：</p>
+      <ul style="margin:16px 0 0 20px">
+        <li><strong>GlassGo Pocket</strong>：随身充电盒 + 可替换触点舌片，15 分钟快充 80%</li>
+        <li><strong>GlassGo Clip</strong>：&lt;60g 夹持式边充电池，边拍摄/翻译边补电</li>
+        <li><strong>GlassGo App</strong>：电量看板 + 低电预警 + 舌片购买 + 投票开模</li>
+      </ul>
+      <p style="margin-top:16px">定价 <strong>$59.99</strong>，首年目标 <strong>15–25 万套</strong>。这套方案由六阶段 × 七角色的 AI 原生工作流生成：AI 负责情报、发散、对抗、评审；人只负责问题定义与价值判断。</p>
+    </div>
+  </div>
+</section>
 
 <!-- ============ 市场 ============ -->
 <section id="market">
@@ -353,7 +372,7 @@ footer .src{margin-top:8px;font-size:11.5px;color:rgba(234,247,255,.35)}
   <div class="container">
     <span class="eyebrow reveal">AI-Native Workflow</span>
     <h2 class="reveal">这个产品，是<span class="hl">被 AI 工作流跑出来的</span></h2>
-    <p class="lead reveal d1">六阶段 × 五角色。各 AI 角色互不知晓对方结论，防止"AI 说服 AI"的同温层；人只做两件事 —— 提好问题、做价值判断。</p>
+    <p class="lead reveal d1">六阶段 × 七角色。各 AI 角色互不知晓对方结论，防止"AI 说服 AI"的同温层；人只做两件事 —— 提好问题、做价值判断。</p>
     <div class="flow reveal d2" id="flowLine">
       <div class="stage"><div class="line"></div><div class="node">S0</div><div class="name">框定</div><div class="role">提问教练<br>定义问题空间</div></div>
       <div class="stage"><div class="line"></div><div class="node">S1</div><div class="name">情报</div><div class="role">情报分析师<br>四路并行检索</div></div>
@@ -366,7 +385,12 @@ footer .src{margin-top:8px;font-size:11.5px;color:rgba(234,247,255,.35)}
     <div class="principles">
       <div class="prin reveal"><div class="no">原则 01</div><h4>证据链优先于结论</h4><p>每个关键判断挂住至少一个可核查信源；AI 生成的推测显式标记，与事实分离。</p></div>
       <div class="prin reveal d1"><div class="no">原则 02</div><h4>对抗前置</h4><p>最凶狠的攻击发生在概念只有一页纸的时候 —— 杀死一个概念的成本趋近于零。</p></div>
-      <div class="prin reveal d2"><div class="no">原则 03</div><h4>人只做价值判断</h4><p>信息搜集、模式识别、角色扮演交给 AI；"要不要做、做成什么气质"留在人手里。</p></div>
+      <div class="prin reveal d2"><div class="no">原则 03</div><h4>人机分工明确</h4><p>信息搜集、模式识别、角色扮演交给 AI；"要不要做、做成什么气质"留在人手里。</p></div>
+    </div>
+    <div class="card reveal d3" style="margin-top:44px">
+      <h4 style="margin-bottom:14px">👇 交互式工作流演示</h4>
+      <iframe src="workflow-demo.html" style="width:100%;height:520px;border:1px solid var(--line);border-radius:12px" loading="lazy"></iframe>
+      <p style="margin-top:12px;color:var(--sub);font-size:13px">在新标签页打开 <a href="workflow-demo.html" target="_blank">workflow-demo.html</a> 可获得更佳体验。</p>
     </div>
   </div>
 </section>
@@ -379,20 +403,20 @@ footer .src{margin-top:8px;font-size:11.5px;color:rgba(234,247,255,.35)}
     <p class="lead reveal d1">五个由真实数据构建的用户替身，以第一人称挑战概念。每一条无法回应的攻击，都会改写产品定义。</p>
     <div class="redteam">
       <div class="rt reveal"><div class="who"><div class="avatar">野</div><div><div class="name">张野 · 28</div><div class="tag">旅行 Vlogger，双机党</div></div></div>
-        <q>"放进盒子充电＝拍摄中断，景色不等人。颈挂 6500mAh？爬山一小时脖子就酸。"</q>
-        <div class="fix"><b>修正 →</b> 边充配件必须存在，但"去颈挂化"：&lt;60g 夹持式 Clip 诞生。</div></div>
+        <q>"把 GlassGo Pocket 里的眼镜拿出来充电＝拍摄中断，景色不等人。"</q>
+        <div class="fix"><b>修正 →</b> 增加 &lt;60g 夹持式 GlassGo Clip，边拍摄边补电。</div></div>
       <div class="rt reveal d1"><div class="who"><div class="avatar">琳</div><div><div class="name">Linda · 35</div><div class="tag">外贸创始人，会议翻译场景</div></div></div>
-        <q>"触点每家都不一样，你凭什么保证我这副夹得准？兼容清单没有的型号怎么办？"</q>
-        <div class="fix"><b>修正 →</b> 放弃"一触通吃"：可替换舌片＋错位不合盖＋投票开模机制。</div></div>
+        <q>"触点每家都不一样，兼容清单没有我的机型怎么办？"</q>
+        <div class="fix"><b>修正 →</b> 可替换触点舌片＋错位不合盖防呆＋用户投票开模机制。</div></div>
       <div class="rt killer reveal d2"><div class="who"><div class="avatar">凯</div><div><div class="name">阿凯 · 23</div><div class="tag">数码尝鲜党，眼镜已退货</div></div></div>
-        <q>"我把眼镜都退了，还买你配件？你们这生意是不是建立在沙滩上？"</q>
-        <div class="fix"><b>修正 →</b> 最致命一击：瞄准"留存用户 ARPU"而非出货总量；众筹 MVP 做止损闸。</div></div>
+        <q>"我把眼镜都退了，还买你配件？"</q>
+        <div class="fix"><b>修正 →</b> 瞄准留存用户 ARPU 而非出货总量；众筹 MVP 做止损闸。</div></div>
       <div class="rt reveal d3"><div class="who"><div class="avatar">姐</div><div><div class="name">王姐 · 42</div><div class="tag">教师，近视＋处方镜片</div></div></div>
-        <q>"我的镜片带度数。充电那两小时，我看黑板都是糊的。"</q>
+        <q>"充电那两小时，我看黑板都是糊的。"</q>
         <div class="fix"><b>修正 →</b> "15 分钟补电 80%"升为核心指标；场景锚定课间／午休碎片时间。</div></div>
       <div class="rt killer reveal d4"><div class="who"><div class="avatar">陆</div><div><div class="name">陆工 · 31</div><div class="tag">硬件 PM，手持 Meta 二代</div></div></div>
-        <q>"Meta 二代续航 8 小时、20 分钟充 50% —— 原厂越做越好，你们的前提是不是在消失？"</q>
-        <div class="fix"><b>修正 →</b> 叙事升级为"跨品牌能源确定性"；Pocket 增加换电电池兼容，双路线通吃。</div></div>
+        <q>"Meta 二代续航 8 小时、20 分钟充 50%，你们的前提是否在消失？"</q>
+        <div class="fix"><b>修正 →</b> 叙事升级为"跨品牌、跨代际的能源确定性"；Pocket 增加换电电池兼容。</div></div>
     </div>
   </div>
 </section>
@@ -431,16 +455,73 @@ footer .src{margin-top:8px;font-size:11.5px;color:rgba(234,247,255,.35)}
     <span class="eyebrow reveal">AI-Driven vs Experience-Driven</span>
     <h2 class="reveal">AI 原生方法论，<span class="hl">不同在哪</span></h2>
     <table class="vs-table reveal d1">
-      <tr><th>环节</th><th>传统 · 经验驱动</th><th>本次 · 证据＋对抗驱动</th></tr>
-      <tr><td>信息获取</td><td>工单、销售数据、焦点小组（样本小、滞后）</td><td>财报／展会／评测差评／电商在售／众筹，四路并行单日完成</td></tr>
-      <tr><td>机会判断</td><td>产品经理嗅觉＋大佬直觉</td><td>信号聚类＋四赛道量化打分，过程可审计</td></tr>
+      <tr><th>维度</th><th>传统 · 经验驱动</th><th>AI 原生 · 证据＋对抗驱动</th></tr>
+      <tr><td>信息获取</td><td>工单、销售数据、焦点小组（样本小、滞后）</td><td>财报／展会／评测差评／电商在售／众筹，四路并行自动聚类信号</td></tr>
+      <tr><td>机会判断</td><td>产品经理嗅觉＋大佬直觉</td><td>信号聚类＋五维量化打分，过程可审计、可复现</td></tr>
+      <tr><td>概念生成</td><td>内部脑暴，受经验边界与路径依赖限制</td><td>AI 多形态发散，强制禁止首次收敛</td></tr>
       <tr><td>概念验证</td><td>评审会，高资历者意见权重过大</td><td>5 个数据驱动的用户替身第一人称攻击</td></tr>
-      <tr><td>天花板</td><td>产品经理的认知边界</td><td>证据链质量＋提问质量 —— 两者都可迭代</td></tr>
-      <tr><td>周期</td><td>月级</td><td>单日跑通，次日二轮深研完成 V2 修订</td></tr>
+      <tr><td>可行性评估</td><td>依赖个别专家或外部顾问，信息不透明</td><td>技术／供应链／合规／市场专家委员会并行评审，每项带证据链</td></tr>
+      <tr><td>迭代周期</td><td>月级反复开会</td><td>单日跑通 S0–S6，次日二轮深研完成 V2 修订</td></tr>
+      <tr><td>核心优势</td><td>个人认知边界与组织经验沉淀</td><td>证据链质量＋提问质量＋对抗强度，均可迭代、可量化</td></tr>
+      <tr><td>人的位置</td><td>既是运动员又是裁判员，易陷入确认偏误</td><td>人只做定义问题、去噪、选择、判断价值、最终背书</td></tr>
     </table>
     <div class="quote-band reveal d2">
       <div class="q">"AI 替代的是信息缺口，不是人的判断。<br>定义<span class="hl">『不做什么』</span>，仍是产品经理最后的护城河。"</div>
       <div class="a">—— 本实验方法论复盘 · 否决"多合一"被记录为最关键决策之一</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 证据来源 ============ -->
+<section id="evidence" style="background:#F6FAFD">
+  <div class="container">
+    <span class="eyebrow reveal">Evidence Chain</span>
+    <h2 class="reveal">关键判断的<span class="hl">可核查信源</span></h2>
+    <p class="lead reveal d1">证据链优先于结论。以下为本提案核心判断的来源清单，带 ⏳ 标记为公开链接待补充项。</p>
+    <div class="card reveal d2" style="margin-top:28px;overflow-x:auto">
+      <table class="vs-table" style="min-width:700px">
+        <tr><th>关键判断</th><th>来源类型</th><th>来源/标题</th><th>日期</th><th>链接</th></tr>
+        <tr><td>2025 年全球 AI 眼镜出货约 870 万台，同比 +322%</td><td>第三方研究机构</td><td>Omdia / IDC / TrendForce</td><td>2026</td><td>⏳</td></tr>
+        <tr><td>Meta 2025 年售出超 700 万副 AI 眼镜</td><td>财报</td><td>依视路陆逊梯卡 2025 年报</td><td>2026</td><td>⏳</td></tr>
+        <tr><td>2026 年中国将智能眼镜纳入国补范围</td><td>政策/行业研究</td><td>洛图科技（RUNTO）</td><td>2026</td><td>⏳</td></tr>
+        <tr><td>京东/天猫 AI 眼镜退货率约 30%，抖音 40%–50%</td><td>电商评价/行业报道</td><td>综合电商平台公开评价与行业分析</td><td>2026</td><td>⏳</td></tr>
+        <tr><td>安克 2025 年充电储能类营收 154.02 亿元</td><td>上市公司年报</td><td>安克创新 2025 年年度报告</td><td>2026</td><td>⏳</td></tr>
+        <tr><td>AI 眼镜续航焦虑的核心场景是"充电时必须摘下"</td><td>用户评论推断</td><td>京东/天猫/抖音差评、B 站/YouTube 评测</td><td>2025–2026</td><td>⏳</td></tr>
+        <tr><td>磁吸触点、低压供电无协议壁垒，供应链成熟</td><td>行业专家推断</td><td>深圳供应链调研与公开拆解报告</td><td>2025–2026</td><td>⏳</td></tr>
+        <tr><td>10Wh 以内电池可带上飞机，符合 IATA 规定</td><td>法规</td><td>IATA 危险品规则 / 民航局公告</td><td>2025</td><td>⏳</td></tr>
+      </table>
+    </div>
+    <p class="lead reveal d3" style="margin-top:20px;font-size:14px">所有市场容量、渗透率、营收测算均为提案级估算假设，用于支撑方向判断，非精确财务预测。</p>
+  </div>
+</section>
+
+<!-- ============ 代码与运行 ============ -->
+<section id="code" style="background:#0A2540;color:#fff">
+  <div class="container">
+    <span class="eyebrow reveal" style="color:#6EE7FF">Code & Demo</span>
+    <h2 class="reveal" style="color:#fff">可运行的工作流代码</h2>
+    <p class="lead reveal d1" style="color:rgba(234,247,255,.72)">本提案不是纯概念。我们交付了完整的 LangGraph 工作流实现、6 项通过的测试、CLI 与 Streamlit 两种人机交互入口。</p>
+    <div class="grid" style="margin-top:28px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))">
+      <div class="card reveal d2" style="background:rgba(255,255,255,.06);border-color:rgba(110,231,255,.2);color:#fff">
+        <h4 style="color:#6EE7FF;margin-bottom:10px">命令行运行</h4>
+        <code style="display:block;background:rgba(0,0,0,.25);padding:12px;border-radius:8px;font-size:13px">py scripts/run_cli.py --auto</code>
+        <p style="margin-top:10px;font-size:13px;color:rgba(234,247,255,.72)">全自动模式使用 AutoHumanProxy 自动通过所有人类断点。</p>
+      </div>
+      <div class="card reveal d3" style="background:rgba(255,255,255,.06);border-color:rgba(110,231,255,.2);color:#fff">
+        <h4 style="color:#6EE7FF;margin-bottom:10px">Streamlit 交互</h4>
+        <code style="display:block;background:rgba(0,0,0,.25);padding:12px;border-radius:8px;font-size:13px">py -m streamlit run streamlit_app.py</code>
+        <p style="margin-top:10px;font-size:13px;color:rgba(234,247,255,.72)">在每个 S0–S5 断点停下来，等待人类判断后再继续。</p>
+      </div>
+      <div class="card reveal d4" style="background:rgba(255,255,255,.06);border-color:rgba(110,231,255,.2);color:#fff">
+        <h4 style="color:#6EE7FF;margin-bottom:10px">运行测试</h4>
+        <code style="display:block;background:rgba(0,0,0,.25);padding:12px;border-radius:8px;font-size:13px">pytest tests/</code>
+        <p style="margin-top:10px;font-size:13px;color:rgba(234,247,255,.72)">6 项测试全部通过，覆盖图编译、模型、证据链与端到端工作流。</p>
+      </div>
+    </div>
+    <div class="cta" style="margin-top:34px;display:flex;gap:14px;flex-wrap:wrap">
+      <a class="btn primary" href="Anker_GlassGo_产品提案_提交版.pdf" download>📄 下载 PDF 提案</a>
+      <a class="btn ghost" href="Anker_GlassGo_答辩PPT.pptx" download>📊 下载 PPT</a>
+      <a class="btn ghost" href="Anker_GlassGo_产品提案_提交版.docx" download>📝 下载 Word</a>
     </div>
   </div>
 </section>

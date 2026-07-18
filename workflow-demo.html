@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 原生产品定义工作流 · 交互 Demo</title>
+<meta name="description" content="六阶段 × 七角色的 AI 原生产品定义工作流交互演示，以 Anker GlassGo 为真实案例。">
+<style>
+:root{
+  --blue:#00A7E1; --blue-light:#6EE7FF; --blue-deep:#0077B6;
+  --navy:#0A2540; --navy-2:#0E3A5C; --ink:#16283A; --sub:#5A7186;
+  --bg:#F6FAFD; --card:#FFFFFF; --line:#E2EDF5;
+  --radius:18px; --radius-sm:12px;
+  --font:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  --shadow:0 4px 18px rgba(10,37,64,.06);
+  --shadow-hover:0 14px 34px rgba(10,37,64,.12);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);color:var(--ink);background:var(--bg);line-height:1.7;-webkit-font-smoothing:antialiased}
+.container{max-width:1200px;margin:0 auto;padding:0 24px}
+section{padding:90px 0}
+h2{font-size:clamp(28px,4vw,40px);font-weight:800;color:var(--navy);line-height:1.25;letter-spacing:-.01em}
+h2 .hl{color:var(--blue)}
+.lead{color:var(--sub);font-size:16px;max-width:760px;margin-top:14px}
+.eyebrow{display:inline-block;font-size:12px;letter-spacing:.18em;color:var(--blue-deep);font-weight:800;text-transform:uppercase;margin-bottom:14px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 24px;border-radius:999px;font-weight:700;font-size:14px;text-decoration:none;transition:transform .25s,box-shadow .25s,border-color .25s;cursor:pointer;border:none}
+.btn.primary{background:linear-gradient(92deg,var(--blue),#28C4F5);color:#04263C;box-shadow:0 8px 24px rgba(0,167,225,.35)}
+.btn.primary:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(0,167,225,.5)}
+.btn.ghost{border:1px solid rgba(110,231,255,.45);color:#CFF3FF;background:transparent}
+.btn.ghost:hover{background:rgba(110,231,255,.1)}
+.btn.secondary{border:1px solid var(--line);background:#fff;color:var(--ink)}
+.btn.secondary:hover{border-color:var(--blue);color:var(--blue-deep)}
+
+/* Hero */
+.hero{position:relative;min-height:92vh;display:flex;align-items:center;background:radial-gradient(1200px 700px at 78% 8%,#10436E 0%,transparent 60%),radial-gradient(900px 600px at 12% 90%,#0C3355 0%,transparent 55%),linear-gradient(160deg,#071B33 0%,var(--navy) 55%,#0B3050 100%);color:#fff;overflow:hidden;padding:120px 0 80px}
+.hero .glow{position:absolute;border-radius:50%;filter:blur(70px);opacity:.45;animation:float 12s ease-in-out infinite}
+.hero .g1{width:380px;height:380px;background:rgba(0,167,225,.34);top:-60px;right:8%}
+.hero .g2{width:280px;height:280px;background:rgba(110,231,255,.22);bottom:10%;left:-50px;animation-delay:-4s}
+.hero .g3{width:180px;height:180px;background:rgba(0,119,182,.4);top:50%;left:42%;animation-delay:-8s}
+@keyframes float{0%,100%{transform:translate(0,0)}50%{transform:translate(30px,-26px)}}
+.hero .eyebrow{color:var(--blue-light)}
+.hero h1{font-size:clamp(40px,6.5vw,72px);font-weight:900;line-height:1.05;letter-spacing:-.02em}
+.hero h1 .grad{background:linear-gradient(92deg,var(--blue) 10%,var(--blue-light) 60%,#C8F6FF 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero .sub{color:rgba(234,247,255,.72);max-width:680px;margin-top:16px;font-size:16.5px}
+.hero .cta{margin-top:32px;display:flex;gap:14px;flex-wrap:wrap}
+.hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:54px}
+.hstat{background:rgba(255,255,255,.06);border:1px solid rgba(110,231,255,.16);border-radius:var(--radius);padding:18px 16px;backdrop-filter:blur(8px)}
+.hstat .num{font-size:28px;font-weight:900;color:var(--blue-light);line-height:1.1}
+.hstat .lbl{font-size:12px;color:rgba(234,247,255,.58);margin-top:6px}
+
+/* Workflow pipeline */
+.pipeline-wrap{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:34px 28px 28px;box-shadow:var(--shadow);margin-top:44px}
+.pipeline-controls{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:28px}
+.pipeline-controls .title{font-size:18px;font-weight:800;color:var(--navy)}
+.pipeline-controls .hint{font-size:13px;color:var(--sub)}
+.pipeline{display:flex;gap:0;overflow-x:auto;padding-bottom:12px;position:relative}
+.stage{flex:1;min-width:110px;text-align:center;position:relative;padding:0 6px;cursor:pointer}
+.stage .node{width:54px;height:54px;margin:0 auto;border-radius:16px;background:#fff;border:2px solid var(--line);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:15px;color:var(--sub);position:relative;z-index:2;transition:all .35s}
+.stage .line{position:absolute;top:27px;left:50%;width:100%;height:2px;background:var(--line);z-index:1}
+.stage:last-child .line{display:none}
+.stage .name{margin-top:10px;font-weight:800;font-size:13.5px;color:var(--navy)}
+.stage .role{font-size:11px;color:var(--sub);margin-top:3px;line-height:1.4;min-height:32px}
+.stage:hover .node{border-color:var(--blue);color:var(--blue-deep);transform:translateY(-3px)}
+.stage.active .node{background:linear-gradient(150deg,var(--blue),#28C4F5);border-color:var(--blue);color:#fff;box-shadow:0 8px 22px rgba(0,167,225,.4)}
+.stage.active .name{color:var(--blue-deep)}
+.stage.done .node{border-color:var(--blue);color:var(--blue-deep);background:#EAF9FF}
+.stage.done .line{background:linear-gradient(90deg,var(--blue),var(--blue-light))}
+
+/* Stage detail */
+.stage-detail{margin-top:26px;animation:fadeIn .35s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.detail-grid{display:grid;grid-template-columns:260px 1fr;gap:24px;align-items:start}
+.detail-meta{background:linear-gradient(150deg,var(--navy),var(--navy-2));border-radius:var(--radius);padding:24px;color:#EAF7FF}
+.detail-meta .badge{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.1em;color:var(--blue-light);background:rgba(110,231,255,.12);border:1px solid rgba(110,231,255,.25);padding:4px 12px;border-radius:999px;margin-bottom:14px}
+.detail-meta h3{font-size:22px;font-weight:800;margin-bottom:10px}
+.detail-meta .row{margin-top:14px}
+.detail-meta .row dt{font-size:11px;color:rgba(234,247,255,.55);text-transform:uppercase;letter-spacing:.08em}
+.detail-meta .row dd{font-size:14px;font-weight:700;margin-top:3px}
+.detail-body{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:26px;min-height:280px}
+.detail-body h4{font-size:17px;font-weight:800;color:var(--navy);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.detail-body h4 .dot{width:8px;height:8px;border-radius:50%;background:var(--blue)}
+.detail-body p,.detail-body li{color:var(--ink);font-size:14.5px}
+.detail-body ul{list-style:none;margin-top:10px}
+.detail-body li{padding:7px 0 7px 26px;position:relative;border-bottom:1px dashed var(--line)}
+.detail-body li:last-child{border-bottom:none}
+.detail-body li::before{content:"";position:absolute;left:2px;top:14px;width:12px;height:7px;border-left:2.5px solid var(--blue);border-bottom:2.5px solid var(--blue);transform:rotate(-45deg)}
+
+@media(max-width:900px){
+  .detail-grid{grid-template-columns:1fr}
+  .pipeline{gap:8px}
+  .stage{min-width:90px}
+  .stage .role{display:none}
+}
+
+/* Intel cards */
+.intel-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:10px}
+.intel-card{background:#F8FBFD;border:1px solid var(--line);border-radius:var(--radius-sm);padding:16px}
+.intel-card .tag{font-size:11px;font-weight:800;letter-spacing:.08em;color:var(--blue-deep);text-transform:uppercase;margin-bottom:8px}
+.intel-card .val{font-size:22px;font-weight:900;color:var(--navy);line-height:1.1}
+.intel-card .val small{font-size:13px;font-weight:700;color:var(--sub)}
+.intel-card .desc{font-size:13px;color:var(--sub);margin-top:8px}
+.intel-card .src{font-size:11px;color:#8BA1B3;margin-top:8px;display:flex;align-items:center;gap:6px}
+
+/* Scoring */
+.score-table{width:100%;border-collapse:separate;border-spacing:0;margin-top:10px;background:#fff;border-radius:var(--radius-sm);overflow:hidden;border:1px solid var(--line)}
+.score-table th,.score-table td{padding:12px 14px;text-align:left;font-size:13.5px;border-bottom:1px solid var(--line)}
+.score-table th{background:var(--navy);color:#fff;font-size:12px;letter-spacing:.05em}
+.score-table td:first-child{font-weight:800;color:var(--navy)}
+.score-table td:nth-child(2){color:var(--sub)}
+.score-table td:last-child{font-weight:900;color:var(--blue-deep)}
+.score-table tr.winner td{background:linear-gradient(180deg,#EAF9FF,#fff)}
+.score-table tr:last-child td{border-bottom:none}
+
+/* Concept cards */
+.concept-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:10px}
+.concept-card{background:#F8FBFD;border:2px solid var(--line);border-radius:var(--radius);padding:18px;transition:all .25s}
+.concept-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-hover);border-color:var(--blue)}
+.concept-card .icon{width:44px;height:44px;border-radius:12px;background:linear-gradient(140deg,#E7F8FF,#CDEFFD);display:flex;align-items:center;justify-content:center;margin-bottom:12px;font-size:20px}
+.concept-card h5{font-size:16px;font-weight:800;color:var(--navy)}
+.concept-card .en{font-size:11px;color:var(--blue-deep);font-weight:700;letter-spacing:.06em}
+.concept-card p{font-size:13px;color:var(--sub);margin-top:8px}
+.concept-card.winner{border-color:var(--blue);background:linear-gradient(180deg,#F4FBFF,#fff)}
+.concept-card.winner .icon{background:linear-gradient(140deg,var(--blue),#28C4F5);color:#fff}
+
+/* Red team */
+.redteam{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-top:44px}
+.rt{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px;border-left:5px solid #FF8A75;cursor:pointer;transition:all .25s}
+.rt:hover{transform:translateY(-3px);box-shadow:var(--shadow-hover)}
+.rt.active{border-color:#FF8A75;background:linear-gradient(160deg,#FFF7F5,#fff)}
+.rt .who{display:flex;align-items:center;gap:12px}
+.rt .avatar{width:44px;height:44px;border-radius:50%;background:linear-gradient(140deg,#FFE9E4,#FFD4CB);display:flex;align-items:center;justify-content:center;font-weight:900;color:#C24B33;font-size:15px}
+.rt .name{font-weight:800;font-size:15px;color:var(--navy)}
+.rt .tag{font-size:12px;color:var(--sub)}
+.rt q{display:block;margin-top:14px;font-size:14.5px;color:#8A3B2A;font-style:italic;line-height:1.65}
+.rt .fix{margin-top:14px;background:linear-gradient(140deg,#EDFBFF,#F7FDFF);border:1px solid #CFEDF9;border-radius:12px;padding:12px 14px;font-size:13px;color:var(--ink);display:none}
+.rt.active .fix{display:block;animation:fadeIn .3s ease}
+.rt .reveal-hint{font-size:12px;color:var(--sub);margin-top:10px;display:flex;align-items:center;gap:6px}
+.rt.active .reveal-hint{display:none}
+
+/* Review */
+.review-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:10px}
+.review-card{background:#F8FBFD;border:1px solid var(--line);border-radius:var(--radius-sm);padding:16px}
+.review-card .hd{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.review-card .status{width:24px;height:24px;border-radius:50%;background:#E1F7E8;color:#1E7E45;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900}
+.review-card h5{font-size:15px;font-weight:800;color:var(--navy)}
+.review-card p{font-size:13px;color:var(--sub)}
+
+/* Principles */
+.principles{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:44px}
+.prin{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:24px;transition:all .25s}
+.prin:hover{transform:translateY(-3px);box-shadow:var(--shadow-hover)}
+.prin .no{font-size:12px;font-weight:900;color:var(--blue);letter-spacing:.1em}
+.prin h4{font-size:18px;font-weight:800;color:var(--navy);margin-top:8px}
+.prin p{font-size:14px;color:var(--sub);margin-top:8px}
+
+/* Comparison */
+.vs-table{width:100%;border-collapse:separate;border-spacing:0;margin-top:44px;background:#fff;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);border:1px solid var(--line)}
+.vs-table th,.vs-table td{padding:16px 20px;text-align:left;font-size:14px;border-bottom:1px solid var(--line)}
+.vs-table th{background:var(--navy);color:#fff;font-size:13px;letter-spacing:.05em}
+.vs-table th:nth-child(3){background:linear-gradient(90deg,var(--blue-deep),var(--blue));color:#fff}
+.vs-table td:first-child{font-weight:800;color:var(--navy);white-space:nowrap}
+.vs-table td:nth-child(2){color:var(--sub)}
+.vs-table td:nth-child(3){color:var(--ink);background:linear-gradient(180deg,#F4FBFF,#fff)}
+.vs-table tr:last-child td{border-bottom:none}
+
+/* Mini lab */
+.lab-wrap{background:linear-gradient(150deg,var(--navy),var(--navy-2));border-radius:var(--radius);padding:34px;color:#EAF7FF;margin-top:44px}
+.lab-wrap h3{font-size:22px;font-weight:800;margin-bottom:8px}
+.lab-wrap p{color:rgba(234,247,255,.65);font-size:14px;margin-bottom:20px}
+.lab-input{display:flex;gap:12px;flex-wrap:wrap}
+.lab-input input{flex:1;min-width:240px;padding:13px 18px;border-radius:999px;border:1px solid rgba(110,231,255,.25);background:rgba(255,255,255,.08);color:#fff;font-size:14px;outline:none}
+.lab-input input::placeholder{color:rgba(234,247,255,.45)}
+.lab-input input:focus{border-color:var(--blue-light);background:rgba(255,255,255,.12)}
+.lab-result{margin-top:20px;background:rgba(255,255,255,.06);border:1px solid rgba(110,231,255,.16);border-radius:var(--radius);padding:20px;display:none}
+.lab-result.show{display:block;animation:fadeIn .4s ease}
+.lab-result h4{font-size:15px;font-weight:800;color:var(--blue-light);margin-bottom:10px}
+.lab-result .item{font-size:13.5px;padding:8px 0;border-bottom:1px solid rgba(110,231,255,.12)}
+.lab-result .item:last-child{border-bottom:none}
+.lab-result .item b{color:#fff}
+
+/* Footer */
+footer{background:#071B33;color:rgba(234,247,255,.6);padding:50px 0 36px;text-align:center}
+footer .big{font-size:clamp(24px,4vw,38px);font-weight:900;color:#fff}
+footer .big .grad{background:linear-gradient(92deg,var(--blue),var(--blue-light));-webkit-background-clip:text;background-clip:text;color:transparent}
+footer .meta{margin-top:12px;font-size:13px;line-height:1.8}
+
+/* Utils */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s cubic-bezier(.2,.65,.3,1),transform .7s cubic-bezier(.2,.65,.3,1)}
+.reveal.in{opacity:1;transform:none}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}
+</style>
+</head>
+<body>
+
+<!-- Hero -->
+<header class="hero" id="top">
+  <div class="glow g1"></div><div class="glow g2"></div><div class="glow g3"></div>
+  <div class="container">
+    <span class="eyebrow">AI-Native Product Definition Workflow</span>
+    <h1>AI 原生<br><span class="grad">产品定义工作流</span></h1>
+    <p class="sub">六阶段 × 七角色体系：证据链优先、对抗前置、人机分工。以 Anker GlassGo 为真实案例，演示一个产品概念如何从问题空间跑成提案。</p>
+    <div class="cta">
+      <a class="btn primary" href="#runner" onclick="startRun();return false">▶ 开始跑流程</a>
+      <a class="btn ghost" href="#redteam">红队攻防模拟</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hstat reveal"><div class="num">6</div><div class="lbl">阶段 Stage</div></div>
+      <div class="hstat reveal d1"><div class="num">7</div><div class="lbl">AI 角色 Role</div></div>
+      <div class="hstat reveal d2"><div class="num">5</div><div class="lbl">红队攻击轮次</div></div>
+      <div class="hstat reveal d3"><div class="num">天级</div><div class="lbl">从月级压缩到</div></div>
+    </div>
+  </div>
+</header>
+
+<!-- Workflow Runner -->
+<section id="runner">
+  <div class="container">
+    <span class="eyebrow reveal">Workflow Runner</span>
+    <h2 class="reveal">点击阶段节点，或让 Demo <span class="hl">自动跑一遍</span></h2>
+    <p class="lead reveal d1">每个 AI 角色互不知晓对方结论，避免"AI 说服 AI"的同温层；人只负责提出问题与做价值判断。</p>
+
+    <div class="pipeline-wrap reveal d2">
+      <div class="pipeline-controls">
+        <div class="title">S0 → S6 流程控制台</div>
+        <div>
+          <button class="btn primary" id="runBtn" onclick="startRun()">▶ 自动跑流程</button>
+          <button class="btn secondary" onclick="resetRun()">重置</button>
+        </div>
+      </div>
+
+      <div class="pipeline" id="pipeline">
+        <div class="stage active" data-stage="0" onclick="selectStage(0)">
+          <div class="line"></div><div class="node">S0</div>
+          <div class="name">框定</div><div class="role">提问教练<br>定义问题空间</div>
+        </div>
+        <div class="stage" data-stage="1" onclick="selectStage(1)">
+          <div class="line"></div><div class="node">S1</div>
+          <div class="name">情报</div><div class="role">情报分析师<br>四路并行检索</div>
+        </div>
+        <div class="stage" data-stage="2" onclick="selectStage(2)">
+          <div class="line"></div><div class="node">S2</div>
+          <div class="name">机会</div><div class="role">机会侦探<br>矛盾聚类打分</div>
+        </div>
+        <div class="stage" data-stage="3" onclick="selectStage(3)">
+          <div class="line"></div><div class="node">S3</div>
+          <div class="name">概念</div><div class="role">概念设计师<br>多形态发散</div>
+        </div>
+        <div class="stage" data-stage="4" onclick="selectStage(4)">
+          <div class="line"></div><div class="node">S4</div>
+          <div class="name">对抗</div><div class="role">用户替身红队<br>第一人称攻击</div>
+        </div>
+        <div class="stage" data-stage="5" onclick="selectStage(5)">
+          <div class="line"></div><div class="node">S5</div>
+          <div class="name">评审</div><div class="role">专家委员会<br>四视角裁决</div>
+        </div>
+        <div class="stage" data-stage="6" onclick="selectStage(6)">
+          <div class="node">S6</div>
+          <div class="name">收敛</div><div class="role">书记官成案<br>人类背书</div>
+        </div>
+      </div>
+
+      <div class="stage-detail" id="stageDetail">
+        <!-- Injected by JS -->
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Red Team Simulator -->
+<section id="redteam" style="background:#fff">
+  <div class="container">
+    <span class="eyebrow reveal">Red Team Simulator</span>
+    <h2 class="reveal">五轮红队攻击，<span class="hl">点击头像查看修正</span></h2>
+    <p class="lead reveal d1">最凶狠的攻击发生在概念只有一页纸时。每一条无法回应的攻击，都会改写产品定义。</p>
+    <div class="redteam" id="redteamGrid">
+      <!-- Injected by JS -->
+    </div>
+  </div>
+</section>
+
+<!-- Principles -->
+<section id="principles">
+  <div class="container">
+    <span class="eyebrow reveal">Design Principles</span>
+    <h2 class="reveal">工作流的 4 条<span class="hl">核心设计原则</span></h2>
+    <p class="lead reveal d1">这些原则决定了 AI 与人如何分工，以及为什么这个流程能跑得又快又稳。</p>
+    <div class="principles">
+      <div class="prin reveal"><div class="no">原则 01</div><h4>证据链优先于结论</h4><p>每个关键判断挂住至少一个可核查信源；AI 生成的推测显式标记，与事实分离。</p></div>
+      <div class="prin reveal d1"><div class="no">原则 02</div><h4>对抗前置</h4><p>最凶狠的攻击发生在概念只有一页纸的时候 —— 杀死一个概念的成本趋近于零。</p></div>
+      <div class="prin reveal d2"><div class="no">原则 03</div><h4>人机分工明确</h4><p>信息搜集、模式识别、角色扮演交给 AI；"要不要做、做成什么气质"留在人手里。</p></div>
+      <div class="prin reveal d3"><div class="no">原则 04</div><h4>AI 角色独立性</h4><p>各 AI 角色互不知晓对方结论，防止"AI 说服 AI"的同温层效应。</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- Comparison -->
+<section id="compare" style="background:#fff">
+  <div class="container">
+    <span class="eyebrow reveal">AI-Driven vs Experience-Driven</span>
+    <h2 class="reveal">AI 原生方法，<span class="hl">到底不同在哪</span></h2>
+    <table class="vs-table reveal d1">
+      <tr><th>维度</th><th>传统方法（经验驱动）</th><th>AI 原生方法（证据 + 对抗驱动）</th></tr>
+      <tr><td>信息获取</td><td>用户反馈、销售数据、焦点小组（样本小、滞后）</td><td>全网情报四路并行，单日完成并标注信源</td></tr>
+      <tr><td>机会判断</td><td>产品经理嗅觉 + 高管直觉</td><td>信号聚类 + 量化打分，过程可审计</td></tr>
+      <tr><td>概念生成</td><td>内部脑暴，受经验边界限制</td><td>AI 多形态发散，强制不首次收敛</td></tr>
+      <tr><td>概念验证</td><td>评审会，资历权重主导</td><td>5 个数据驱动的用户替身第一人称攻击</td></tr>
+      <tr><td>周期</td><td>月级</td><td>本实验：单日跑通，次日完成 V2 修订</td></tr>
+      <tr><td>核心优势</td><td>依赖个人认知边界</td><td>证据链质量 + 提问质量，两者都可迭代</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- Mini Lab -->
+<section id="lab">
+  <div class="container">
+    <span class="eyebrow reveal">Mini Lab</span>
+    <h2 class="reveal">输入一个产品假设，<span class="hl">秒级预演工作流</span></h2>
+    <p class="lead reveal d1">这是一个简化的模拟器：输入你的品类假设，Demo 会按 S0→S6 的框架给出即时反馈。</p>
+    <div class="lab-wrap reveal d2">
+      <h3>🧪 工作流快速预演</h3>
+      <p>例如："为露营人群做的便携储能设备"、"面向银发族的智能药盒"……</p>
+      <div class="lab-input">
+        <input type="text" id="labInput" placeholder="输入一个产品假设，如：为 AI 眼镜做的跨品牌充电盒" onkeydown="if(event.key==='Enter')runLab()">
+        <button class="btn primary" onclick="runLab()">生成预演结果</button>
+      </div>
+      <div class="lab-result" id="labResult"></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="big">Power <span class="grad">Every Pair.</span></div>
+    <div class="meta">Anker GlassGo · AI 原生产品定义工作流交互 Demo</div>
+  </div>
+</footer>
+
+<script>
+// ===== Data =====
+const stages = [
+  {
+    title: 'S0 框定',
+    name: '定义问题空间',
+    ai: '提问教练',
+    human: '出题人',
+    output: '问题定义书',
+    content: `
+      <h4><span class="dot"></span>GlassGo 案例：问题定义书</h4>
+      <ul>
+        <li><b>品类锚点：</b>AI 眼镜行业进入"百镜大战"，2025 年全球出货 870 万台，增速 +322%。</li>
+        <li><b>核心张力：</b>品牌各自修孤岛（磁吸触点、充电仓、颈挂环互不兼容），没有跨品牌补能方案。</li>
+        <li><b>能力匹配：</b>安克 2025 年充电储能类营收占比 50.47%，全球移动充电份额第一。</li>
+        <li><b>问题陈述：</b>在 AI 眼镜品类中，寻找安克可切入的补能机会，并设计一个跨品牌的能源确定性产品系统。</li>
+      </ul>
+      <p style="margin-top:14px;color:var(--sub);font-size:13px">💡 人的动作：提出边界条件（品类、预算、品牌调性），禁止 AI 在问题不清时直接给答案。</p>
+    `
+  },
+  {
+    title: 'S1 情报',
+    name: '多源采集交叉验证',
+    ai: '情报分析师',
+    human: '剔除伪信号',
+    output: '情报地图（带出处）',
+    content: `
+      <h4><span class="dot"></span>四路并行信息采集</h4>
+      <p style="margin-bottom:14px;color:var(--sub);font-size:13px">每条关键判断挂住可核查信源；AI 推理显式标记为 inference，与事实分离。</p>
+      <div class="intel-grid">
+        <div class="intel-card">
+          <div class="tag">公司面</div>
+          <div class="val">305.14 <small>亿元</small></div>
+          <div class="desc">安克 2025 年营收；充电储能类占比 50.47%，全球移动充电份额第一（4.8%）。</div>
+          <div class="src">📎 安克创新 2025 年报</div>
+        </div>
+        <div class="intel-card">
+          <div class="tag">赛道面</div>
+          <div class="val">870 <small>万台</small></div>
+          <div class="desc">2025 年全球 AI 眼镜出货，实际达机构预测 1.7 倍；Meta 单年售出超 700 万副。</div>
+          <div class="src">📎 Omdia / 依视路陆逊梯卡财报</div>
+        </div>
+        <div class="intel-card">
+          <div class="tag">用户面</div>
+          <div class="val">30-50% <small>退货率</small></div>
+          <div class="desc">京东/天猫约 30%，抖音 40%-50%；留存用户第一高频痛点为续航，"充电即暂时失明"。</div>
+          <div class="src">📎 电商平台评价 / 社媒舆情</div>
+        </div>
+        <div class="intel-card">
+          <div class="tag">竞品面</div>
+          <div class="val">¥46-599</div>
+          <div class="desc">官方配件 399-599 元仅适配自家；白牌 46-299 元有量无牌；Transnovo 众筹验证需求但贴镜增重 20g 失败。</div>
+          <div class="src">📎 电商在售 / Kickstarter / 用户评价</div>
+        </div>
+      </div>
+    `
+  },
+  {
+    title: 'S2 机会',
+    name: '矛盾聚类找机会',
+    ai: '机会侦探',
+    human: '选择下注假设',
+    output: '机会评分矩阵',
+    content: `
+      <h4><span class="dot"></span>量化评分锁定方向</h4>
+      <table class="score-table">
+        <tr><th>机会方向</th><th>评分维度</th><th>得分 / 5</th></tr>
+        <tr class="winner"><td>AI 眼镜跨品牌补能系统</td><td>赛道增速 + 空白度 + 能力匹配 + 盈利空间 + 时机窗</td><td>4.7 ⭐</td></tr>
+        <tr><td>单一品牌充电仓</td><td>赛道增速 + 竞争壁垒 + 能力匹配 + 盈利空间 + 时机窗</td><td>3.2</td></tr>
+        <tr><td>通用颈挂电池</td><td>用户需求 + 形态接受度 + 品牌差异 + 盈利空间</td><td>2.8</td></tr>
+        <tr><td>AI 眼镜收纳包</td><td>差异化 + 技术壁垒 + 客单价</td><td>2.1</td></tr>
+      </table>
+      <p style="margin-top:14px;color:var(--sub);font-size:13px">💡 胜出逻辑：高增长赛道 × 前标准化蛮荒期 × 完美契合安克移动充电能力。</p>
+    `
+  },
+  {
+    title: 'S3 概念',
+    name: '多形态发散',
+    ai: '概念设计师',
+    human: '补充场景、禁止说"不行"',
+    output: '3+ 候选概念',
+    content: `
+      <h4><span class="dot"></span>三个候选概念</h4>
+      <div class="concept-grid">
+            <div class="concept-card winner">
+              <div class="icon">📦</div>
+              <h5>GlassGo Pocket</h5>
+              <div class="en">随身充电盒 · 可替换触点舌片</div>
+              <p>3000mAh 电池 + 可替换触点舌片，首批适配 5 大机型；15 分钟快充，直充 + 换电双模式。</p>
+            </div>
+            <div class="concept-card">
+              <div class="icon">🔄</div>
+              <h5>GlassGo Clip</h5>
+              <div class="en">夹持式边充电池</div>
+              <p>&lt;60g 磁吸短缆夹持电池，服务重度拍摄与实时翻译的边用边充场景。</p>
+            </div>
+            <div class="concept-card">
+              <div class="icon">🏠</div>
+              <h5>GlassGo Tower</h5>
+              <div class="en">桌面能源站</div>
+              <p>多设备桌面 dock + UV-C 清洁，作为家庭夜间能源站与后续生态扩展方向。</p>
+            </div>
+          </div>
+      <p style="margin-top:14px;color:var(--sub);font-size:13px">💡 原则：此阶段禁止首次收敛，必须产出 3 个以上差异足够的候选概念。</p>
+    `
+  },
+  {
+    title: 'S4 对抗',
+    name: '攻击概念',
+    ai: '用户替身 / 红队',
+    human: '记录无法回应的攻击',
+    output: '挑战 — 应答 — 修正录',
+    content: `
+      <h4><span class="dot"></span>红队攻击，每条攻击都改写定义</h4>
+      <ul>
+        <li><b>张野 · 旅行 Vlogger：</b>"把 GlassGo Pocket 里的眼镜拿出来充电＝拍摄中断；景色不等人。"<br><span style="color:var(--blue-deep)">→ 修正：增加 &lt;60g 夹持式 GlassGo Clip，边拍摄边补电。</span></li>
+        <li><b>Linda · 商务用户：</b>"触点每家都不一样，兼容清单没有我的机型怎么办？"<br><span style="color:var(--blue-deep)">→ 修正：可替换触点舌片 + 错位不合盖防呆 + 用户投票开模机制。</span></li>
+        <li><b>阿凯 · 数码尝鲜党：</b>"我把眼镜都退了，还买你配件？"<br><span style="color:var(--blue-deep)">→ 修正：瞄准留存用户 ARPU，众筹 MVP 做止损闸。</span></li>
+        <li><b>王姐 · 教师/近视用户：</b>"充电那两小时，我看黑板都是糊的。"<br><span style="color:var(--blue-deep)">→ 修正：15 分钟补电 80% 升为核心指标，锚定课间/午休碎片时间。</span></li>
+        <li><b>陆工 · 硬件 PM：</b>"Meta 二代续航 8 小时、20 分钟充 50%，你们的前提是否在消失？"<br><span style="color:var(--blue-deep)">→ 修正：叙事升级为"跨品牌、跨代际的能源确定性"，Pocket 增加换电电池兼容，双路线通吃。</span></li>
+      </ul>
+    `
+  },
+  {
+    title: 'S5 评审',
+    name: '可行性裁决',
+    ai: '专家委员会',
+    human: '综合裁决',
+    output: '评审纪要',
+    content: `
+      <h4><span class="dot"></span>四维度独立评审</h4>
+      <div class="review-grid">
+        <div class="review-card">
+          <div class="hd"><div class="status">✓</div><h5>技术评审</h5></div>
+          <p>5V 低压磁吸触点无协议障碍；新增换电兼容课题需提前验证。</p>
+        </div>
+        <div class="review-card">
+          <div class="hd"><div class="status">✓</div><h5>供应链评审</h5></div>
+          <p>深圳磁吸 / Pogo Pin / 小容量锂电供应链成熟，可快速起量。</p>
+        </div>
+        <div class="review-card">
+          <div class="hd"><div class="status">✓</div><h5>合规评审</h5></div>
+          <p>10Wh 容量符合航空标准；全球合规矩阵前置设计。</p>
+        </div>
+        <div class="review-card">
+          <div class="hd"><div class="status">✓</div><h5>市场评审</h5></div>
+          <p>AI 眼镜配件生态爆发滞后主机 1-2 年，当前为卡位时间窗。</p>
+        </div>
+      </div>
+    `
+  },
+  {
+    title: 'S6 收敛',
+    name: '成案',
+    ai: '书记官',
+    human: '最终决策背书',
+    output: '产品提案',
+    content: `
+      <h4><span class="dot"></span>产品提案：Anker GlassGo</h4>
+      <ul>
+        <li><b>定位：</b>Cross-brand energy infrastructure for AI glasses —— 品类的中立能源基建。</li>
+        <li><b>核心产品：</b>GlassGo Pocket（随身充电盒）+ 可替换触点舌片，直充 + 换电双模式。</li>
+        <li><b>产品系统：</b>GlassGo Pocket、GlassGo Clip、GlassGo App。</li>
+        <li><b>定价：</b>$59.99，介于官方配件与白牌之间的"多一点点"价值带。</li>
+        <li><b>目标：</b>众筹 + 量产 15–25 万套（150k–250k units）首年。</li>
+        <li><b>路线图：</b>P0 Kickstarter MVP → P1 量产与生态扩展 → P2 B2B 模块授权。</li>
+        <li><b>关键决策：</b>否决"多合一"方案，选择"通用仓体 + 可替换舌片"作为 MVP。</li>
+        <li><b>风险缓释：</b>众筹作为止损闸；全球合规矩阵前置设计。</li>
+      </ul>
+      <p style="margin-top:14px;color:var(--sub);font-size:13px">💡 人的最终决策：背书书记官生成的提案，并将"通用仓体 + 可替换舌片"记录为最关键决策。</p>
+    `
+  }
+];
+
+const redTeam = [
+  { name: '张野', tag: '旅行 Vlogger，双机党', avatar: '野', attack: '把 GlassGo Pocket 里的眼镜拿出来充电＝拍摄中断，景色不等人。', fix: '增加 &lt;60g 夹持式 GlassGo Clip，边拍摄边补电。' },
+  { name: 'Linda', tag: '外贸创始人，会议翻译场景', avatar: '琳', attack: '触点每家都不一样，兼容清单没有我的机型怎么办？', fix: '可替换触点舌片 + 错位不合盖防呆 + 用户投票开模机制。' },
+  { name: '阿凯', tag: '数码尝鲜党，眼镜已退货', avatar: '凯', attack: '我把眼镜都退了，还买你配件？', fix: '瞄准留存用户 ARPU 而非出货总量；众筹 MVP 做止损闸。' },
+  { name: '王姐', tag: '教师，近视 + 处方镜片', avatar: '姐', attack: '充电那两小时，我看黑板都是糊的。', fix: '"15 分钟补电 80%"升为核心指标；场景锚定课间/午休碎片时间。' },
+  { name: '陆工', tag: '硬件 PM，手持 Meta 二代', avatar: '陆', attack: 'Meta 二代续航 8 小时、20 分钟充 50%，你们的前提是否在消失？', fix: '叙事升级为"跨品牌、跨代际的能源确定性"；Pocket 增加换电电池兼容。' }
+];
+
+// ===== Stage rendering =====
+let currentStage = 0;
+let running = false;
+
+function renderStage(index) {
+  const s = stages[index];
+  const detail = document.getElementById('stageDetail');
+  detail.innerHTML = `
+    <div class="detail-grid">
+      <div class="detail-meta">
+        <div class="badge">${s.title}</div>
+        <h3>${s.name}</h3>
+        <dl>
+          <div class="row"><dt>AI 角色</dt><dd>${s.ai}</dd></div>
+          <div class="row"><dt>人的角色</dt><dd>${s.human}</dd></div>
+          <div class="row"><dt>阶段产出</dt><dd>${s.output}</dd></div>
+        </dl>
+      </div>
+      <div class="detail-body">${s.content}</div>
+    </div>
+  `;
+
+  document.querySelectorAll('.stage').forEach((el, i) => {
+    el.classList.remove('active');
+    if (i < index) el.classList.add('done');
+    if (i === index) el.classList.add('active');
+    if (i > index) el.classList.remove('done');
+  });
+  currentStage = index;
+}
+
+function selectStage(index) {
+  if (running) return;
+  renderStage(index);
+}
+
+function startRun() {
+  if (running) return;
+  running = true;
+  document.getElementById('runner').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  document.getElementById('runBtn').textContent = '运行中...';
+  document.getElementById('runBtn').disabled = true;
+  renderStage(0);
+  let step = 1;
+  const interval = setInterval(() => {
+    if (step >= stages.length) {
+      clearInterval(interval);
+      running = false;
+      document.getElementById('runBtn').textContent = '▶ 重新跑流程';
+      document.getElementById('runBtn').disabled = false;
+      return;
+    }
+    renderStage(step);
+    step++;
+  }, 2200);
+}
+
+function resetRun() {
+  running = false;
+  document.getElementById('runBtn').textContent = '▶ 自动跑流程';
+  document.getElementById('runBtn').disabled = false;
+  renderStage(0);
+}
+
+// ===== Red team =====
+function renderRedTeam() {
+  const grid = document.getElementById('redteamGrid');
+  grid.innerHTML = redTeam.map((r, i) => `
+    <div class="rt reveal ${i===2||i===4?'killer':''}" onclick="toggleRT(this)">
+      <div class="who">
+        <div class="avatar">${r.avatar}</div>
+        <div><div class="name">${r.name}</div><div class="tag">${r.tag}</div></div>
+      </div>
+      <q>"${r.attack}"</q>
+      <div class="reveal-hint">👆 点击卡片查看修正</div>
+      <div class="fix"><b>修正 →</b> ${r.fix}</div>
+    </div>
+  `).join('');
+}
+
+function toggleRT(card) {
+  card.classList.toggle('active');
+}
+
+// ===== Mini lab =====
+function runLab() {
+  const input = document.getElementById('labInput').value.trim();
+  const result = document.getElementById('labResult');
+  if (!input) {
+    result.innerHTML = '<h4>⚠️ 请先输入一个产品假设</h4>';
+    result.classList.add('show');
+    return;
+  }
+  const idea = input.replace(/</g,'&lt;');
+  const noun = idea.split('的')[0] || idea;
+  result.innerHTML = `
+    <h4>「${idea}」工作流预演</h4>
+    <div class="item"><b>S0 框定：</b>明确问题空间：为${noun}解决什么场景下的什么断裂？</div>
+    <div class="item"><b>S1 情报：</b>并行采集公司面/赛道面/用户面/竞品面数据，标注可核查信源。</div>
+    <div class="item"><b>S2 机会：</b>用增速、空白度、能力匹配、盈利空间、时机窗五维度量化打分。</div>
+    <div class="item"><b>S3 概念：</b>强制产出 3 个以上差异化候选形态，禁止首次收敛。</div>
+    <div class="item"><b>S4 对抗：</b>构建 5 个数据驱动的用户替身，第一人称攻击每个概念。</div>
+    <div class="item"><b>S5 评审：</b>技术 / 供应链 / 合规 / 市场四维度独立裁决。</div>
+    <div class="item"><b>S6 收敛：</b>书记官成案，人类做最终价值判断与背书。</div>
+  `;
+  result.classList.add('show');
+}
+
+// ===== Init =====
+document.addEventListener('DOMContentLoaded', () => {
+  renderStage(0);
+  renderRedTeam();
+
+  // Scroll reveal
+  const io = new IntersectionObserver(es => {
+    es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: .16 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // Observe red team cards after render
+  setTimeout(() => {
+    document.querySelectorAll('.redteam .rt').forEach(el => io.observe(el));
+  }, 100);
+});
+</script>
+</body>
+</html>
