@@ -35,6 +35,9 @@ nav .container{display:flex;align-items:center;justify-content:space-between;hei
 @keyframes pulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.35);opacity:.6}}
 nav .links a{color:rgba(255,255,255,.72);text-decoration:none;font-size:13.5px;margin-left:26px;transition:color .25s}
 nav .links a:hover{color:var(--blue-light)}
+nav .github-link{display:inline-flex;align-items:center;gap:6px;color:#fff;text-decoration:none;font-size:13px;font-weight:700;margin-left:22px;padding:7px 14px;border-radius:999px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);transition:background .25s,transform .25s}
+nav .github-link svg{width:16px;height:16px;fill:currentColor}
+nav .github-link:hover{background:rgba(255,255,255,.18);transform:translateY(-1px)}
 @media(max-width:820px){nav .links{display:none}}
 
 /* ===== Hero ===== */
@@ -219,6 +222,10 @@ footer .src{margin-top:8px;font-size:11.5px;color:rgba(234,247,255,.35)}
     <a class="logo" href="#top"><span class="dot"></span>Anker <b>GlassGo</b></a>
     <div class="links">
       <a href="#pitch">演讲</a><a href="#market">市场</a><a href="#gap">断裂带</a><a href="#product">产品</a><a href="#flow">工作流</a><a href="#redteam">红队</a><a href="#model">测算</a><a href="#roadmap">路线图</a><a href="#evidence">证据</a><a href="#code">代码</a>
+      <a class="github-link" href="https://github.com/Fe1ixFe1icis/feishuAnkerGlassGo" target="_blank" rel="noopener">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+        GitHub
+      </a>
     </div>
   </div>
 </nav>
@@ -522,6 +529,7 @@ footer .src{margin-top:8px;font-size:11.5px;color:rgba(234,247,255,.35)}
       <a class="btn primary" href="Anker_GlassGo_产品提案_提交版.pdf" download>📄 下载 PDF 提案</a>
       <a class="btn ghost" href="Anker_GlassGo_答辩PPT.pptx" download>📊 下载 PPT</a>
       <a class="btn ghost" href="Anker_GlassGo_产品提案_提交版.docx" download>📝 下载 Word</a>
+      <a class="btn ghost" href="https://github.com/Fe1ixFe1icis/feishuAnkerGlassGo" target="_blank" rel="noopener" style="border-color:rgba(255,255,255,.35);color:#fff">⭐ GitHub 仓库</a>
     </div>
   </div>
 </section>
@@ -529,7 +537,7 @@ footer .src{margin-top:8px;font-size:11.5px;color:rgba(234,247,255,.35)}
 <footer>
   <div class="container">
     <div class="big">Power <span class="grad">Every Pair.</span></div>
-    <div class="meta">Anker GlassGo · AI 眼镜的跨品牌补能系统<br>一次 AI 原生产品定义实验 · 2026.07</div>
+    <div class="meta">Anker GlassGo · AI 眼镜的跨品牌补能系统<br>一次 AI 原生产品定义实验 · 2026.07<br><a href="https://github.com/Fe1ixFe1icis/feishuAnkerGlassGo" target="_blank" rel="noopener" style="color:var(--blue-light);text-decoration:none">github.com/Fe1ixFe1icis/feishuAnkerGlassGo</a></div>
     <div class="src">数据来源：Omdia / IDC / TrendForce / 洛图科技 / 依视路陆逊梯卡财报 / 安克创新 2025 年报等公开信源，详见提案文档脚注。<br>本页面为提案演示，规格与财务数字为方案级估算。</div>
   </div>
 </footer>
